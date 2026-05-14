@@ -1,0 +1,85 @@
+[
+  {
+    "id": "transcript_001",
+    "fellow": "Karthik",
+    "organization": "Veerabhadra Auto Components",
+    "sector": "Auto Components Manufacturing",
+    "engagement_duration": "4 months",
+    "supervisor": "Plant Manager",
+    "transcript": "Very sincere boy. Always on the floor — I never have to call him twice. He helps me with production tracking. Every evening he updates it and sends it to me on WhatsApp. He follows up with the vendors when there's a delay. He sits in all the morning meetings and takes notes. Once I had him do a cycle time study for the drum brake line — he did it properly, found we were losing about 10 minutes per batch because of a tool changeover issue. I told him what to do and he delivered. He doesn't really push back. If I tell him to do something, he does it. The floor workers like him — he's polite. But I'm not sure he's driving anything on his own. He's waiting for me to assign things.",
+    "expected_score": 6,
+    "scoring_notes": {
+      "trap": "Supervisor is warm and positive — lazy tool gives 8. Correct score is 6 with one signal toward 7.",
+      "layer1_evidence": [
+        "Updates production tracking sheet daily and sends via WhatsApp",
+        "Follows up with vendors on delays",
+        "Attends all morning meetings and takes notes"
+      ],
+      "layer2_evidence": [
+        "Cycle time study on drum brake line — identified 10 min/batch loss (assigned task, not self-initiated)"
+      ],
+      "key_signals": [
+        "He doesn't really push back — flags ceiling on score above 6",
+        "He's waiting for me to assign things — confirms no independent problem identification",
+        "Production tracking sheet is personally maintained by Fellow, not a self-sustaining system"
+      ],
+      "bias_present": "presence_bias",
+      "survivability": false
+    }
+  },
+  {
+    "id": "transcript_002",
+    "fellow": "Meena",
+    "organization": "Lakshmi Textiles",
+    "sector": "Textiles Manufacturing",
+    "engagement_duration": "5 months",
+    "supervisor": "Operations Head",
+    "transcript": "She spends too much time on her laptop. I keep telling her she needs to be on the floor more. But I'll admit — she built an order tracker that the dispatch team is now using every day. She also did some analysis on rejection rates and found that rejections go up on the second shift when a particular loom operator is absent and a substitute comes in. She flagged this to me. I hadn't noticed it. She also set up some kind of alert for when dispatch timelines are at risk — she explained it to me but honestly I didn't fully follow it. The floor team is mixed on her. The older women think she's showing off. She has a good head on her shoulders but she needs to learn that being present matters here.",
+    "expected_score": 7,
+    "scoring_notes": {
+      "trap": "Supervisor is critical — lazy tool gives 4. Correct score is 7. Presence bias is masking genuine Layer 2 work.",
+      "layer1_evidence": [],
+      "layer2_evidence": [
+        "Order tracker built and adopted by dispatch team daily — self-sustaining system",
+        "Rejection rate analysis identifying shift-specific pattern supervisor had not noticed",
+        "Dispatch timeline risk alert system"
+      ],
+      "key_signals": [
+        "She flagged this to me. I hadn't noticed it — clear score 7 signal: independent problem identification",
+        "Order tracker the dispatch team is now using every day — survives Fellow departure",
+        "The older women think she's showing off — change management gap flagged"
+      ],
+      "bias_present": "presence_bias",
+      "gap": "change_management",
+      "survivability": true
+    }
+  },
+  {
+    "id": "transcript_003",
+    "fellow": "Anil",
+    "organization": "Prabhat Foods",
+    "sector": "Food Processing",
+    "engagement_duration": "6 months",
+    "supervisor": "Founder/Director",
+    "transcript": "My right hand. Honestly don't know how we managed before him. He handles all my morning calls now — I just give him a brief and he takes it from there. He runs our Monday review meetings. When Suresh (our ops manager) went on leave, Anil stepped in and handled the entire weekly planning. He coordinates across packaging, QA, dispatch. He's always there. If I message him at 9pm he replies instantly. The team loves him. If he left tomorrow, I don't know — everything would be chaotic for weeks.",
+    "expected_score": 6,
+    "scoring_notes": {
+      "trap": "Supervisor is glowing — lazy tool gives 9. Correct score is 5-6. Anil is absorbing the founder's workload, not building systems.",
+      "layer1_evidence": [
+        "Handles founder's morning calls",
+        "Runs Monday review meetings",
+        "Stepped in for ops manager during leave",
+        "Coordinates packaging, QA, dispatch"
+      ],
+      "layer2_evidence": [],
+      "key_signals": [
+        "If he left tomorrow, everything would be chaotic for weeks — explicit survivability failure",
+        "He handles all my calls — task absorption, not systems building",
+        "No mention of any tracker, SOP, process, or tool created"
+      ],
+      "bias_present": "halo_effect",
+      "dependency_problem": true,
+      "survivability": false
+    }
+  }
+]

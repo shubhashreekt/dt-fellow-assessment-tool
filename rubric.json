@@ -1,0 +1,227 @@
+{
+  "rubric": {
+    "version": "1.0",
+    "scale": "1-10",
+    "bands": [
+      {
+        "band": "Need Attention",
+        "range": [1, 3],
+        "description": "Fellow requires active intervention. Work is not progressing without direct supervision.",
+        "scores": [
+          {
+            "value": 1,
+            "label": "Not Interested",
+            "what_to_look_for": "Supervisor describes disengagement, no visible effort, absenteeism, or indifference.",
+            "supervisor_signals": [
+              "He just sits there",
+              "I don't know what she does all day",
+              "Completely checked out"
+            ]
+          },
+          {
+            "value": 2,
+            "label": "Lacks Discipline",
+            "what_to_look_for": "Works only when directly told. No self-initiative. Needs constant follow-up.",
+            "supervisor_signals": [
+              "Works only when I tell him",
+              "I have to remind her every single day",
+              "Never starts anything on his own"
+            ]
+          },
+          {
+            "value": 3,
+            "label": "Motivated but Directionless",
+            "what_to_look_for": "Enthusiasm present but output is unfocused. Fellow wants to help but doesn't know where to start.",
+            "supervisor_signals": [
+              "She wants to help but doesn't know where to start",
+              "Lots of energy but nothing concrete",
+              "He means well but gets confused easily"
+            ]
+          }
+        ]
+      },
+      {
+        "band": "Productivity",
+        "range": [4, 6],
+        "description": "Fellow is executing tasks reliably. Layer 1 work is present. Layer 2 work is absent or minimal.",
+        "scores": [
+          {
+            "value": 4,
+            "label": "Careless and Inconsistent",
+            "what_to_look_for": "Output exists but quality varies. Sometimes good, sometimes sloppy. Cannot be trusted without review.",
+            "supervisor_signals": [
+              "Sometimes good, sometimes sloppy",
+              "I have to double-check everything",
+              "Hit or miss"
+            ]
+          },
+          {
+            "value": 5,
+            "label": "Consistent Performer",
+            "what_to_look_for": "Reliable task execution. Does what is asked and meets standards. No independent initiative beyond assigned scope.",
+            "supervisor_signals": [
+              "Does what I ask, meets standards",
+              "Reliable but needs direction",
+              "Good worker, just needs to be told what to do"
+            ]
+          },
+          {
+            "value": 6,
+            "label": "Reliable and Productive",
+            "what_to_look_for": "High trust on assigned tasks. Supervisor gives task and does not worry about follow-up. Initiative exists but only within assigned scope.",
+            "supervisor_signals": [
+              "I give him a task and forget about it — it gets done",
+              "Never have to follow up",
+              "Very dependable"
+            ],
+            "critical_boundary_note": "Score 6 takes initiative WITHIN assigned scope. Score 7 expands the scope. This is the most important distinction in the rubric."
+          }
+        ]
+      },
+      {
+        "band": "Performance",
+        "range": [7, 10],
+        "description": "Fellow is operating beyond task execution. Layer 2 work is present. Fellow is identifying or solving problems the supervisor had not defined.",
+        "scores": [
+          {
+            "value": 7,
+            "label": "Problem Identifier",
+            "what_to_look_for": "Fellow spots patterns or problems the supervisor had not noticed or assigned. Expands scope independently.",
+            "supervisor_signals": [
+              "She noticed our rejection rate goes up on Mondays",
+              "He flagged something I hadn't seen",
+              "She came to me with a problem I didn't know we had"
+            ],
+            "critical_boundary_note": "Score 7 identifies problems. Score 8 also fixes them with a built system."
+          },
+          {
+            "value": 8,
+            "label": "Problem Solver",
+            "what_to_look_for": "Fellow identifies a problem AND builds something to fix it — a tracker, a system, a process. The fix has some durability.",
+            "supervisor_signals": [
+              "He built a tracking system for dispatch delays",
+              "She designed a process and trained the team on it",
+              "We now have a dashboard because of her"
+            ]
+          },
+          {
+            "value": 9,
+            "label": "Innovative and Experimental",
+            "what_to_look_for": "Fellow builds new tools or processes proactively, tests different approaches, creates MVPs. Work is experimental and forward-looking.",
+            "supervisor_signals": [
+              "She tried three different approaches before settling on one",
+              "He built something we hadn't even asked for and it works",
+              "She's always testing new ideas"
+            ]
+          },
+          {
+            "value": 10,
+            "label": "Exceptional Performer",
+            "what_to_look_for": "Everything at score 9, executed flawlessly. Other team members are learning from the Fellow's work.",
+            "supervisor_signals": [
+              "The rest of the team is learning from him",
+              "She's become a reference point for how things should be done",
+              "I'd hire her permanently tomorrow"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "kpis": [
+    {
+      "name": "Lead Generation",
+      "measures": "New customers identified or contacted",
+      "supervisor_language": ["finds new schools to partner with", "reaching out to new clients", "prospecting", "new leads"]
+    },
+    {
+      "name": "Lead Conversion",
+      "measures": "Leads that become paying customers",
+      "supervisor_language": ["closed 3 new accounts", "converted a prospect", "signed a new client"]
+    },
+    {
+      "name": "Upselling",
+      "measures": "Selling more to existing customers",
+      "supervisor_language": ["existing clients are ordering bigger quantities", "increased order size", "clients buying more"]
+    },
+    {
+      "name": "Cross-selling",
+      "measures": "Selling additional product types to existing customers",
+      "supervisor_language": ["started supplying packaging along with core product", "new product line to existing clients"]
+    },
+    {
+      "name": "NPS",
+      "measures": "Customer satisfaction",
+      "supervisor_language": ["retailers are much happier", "fewer complaints", "customers are satisfied", "positive feedback"]
+    },
+    {
+      "name": "PAT",
+      "measures": "Profitability",
+      "supervisor_language": ["reduced waste", "costs came down", "we're saving money", "margins improved"]
+    },
+    {
+      "name": "TAT",
+      "measures": "Turnaround time",
+      "supervisor_language": ["dispatch is faster", "we don't miss deadlines", "turnaround improved", "cycle time reduced"]
+    },
+    {
+      "name": "Quality",
+      "measures": "Defect, rejection, and complaint rates",
+      "supervisor_language": ["rejection rate dropped", "fewer customer complaints", "defects are down", "quality improved"]
+    }
+  ],
+  "assessment_dimensions": [
+    {
+      "id": "driving_execution",
+      "name": "Driving Execution",
+      "description": "Does the Fellow get things done on time, follow up without reminders, and initiate work?",
+      "flag_if_missing": false
+    },
+    {
+      "id": "systems_building",
+      "name": "Systems Building",
+      "description": "Did the Fellow create anything — a tracker, SOP, process, template — that others use or that survives the Fellow's departure?",
+      "flag_if_missing": true,
+      "survivability_test": "If the Fellow left tomorrow, would any system they built continue running?"
+    },
+    {
+      "id": "kpi_impact",
+      "name": "KPI Impact",
+      "description": "Does the Fellow's work connect to any measurable business outcome?",
+      "flag_if_missing": true
+    },
+    {
+      "id": "change_management",
+      "name": "Change Management",
+      "description": "How does the Fellow interact with the floor team? Do they get people to adopt new processes? Handle resistance from older, more experienced workers?",
+      "flag_if_missing": true,
+      "note": "This is where most Fellows struggle. A 23-year-old asking a 45-year-old machine operator to fill out a new checklist — the power dynamic is inverted with no formal authority."
+    }
+  ],
+  "supervisor_biases": [
+    {
+      "name": "Helpfulness Bias",
+      "description": "Supervisor praises how much the Fellow handles for them. Sounds like high performance but is actually task absorption.",
+      "example": "She handles all my calls now",
+      "correct_interpretation": "5-6 range — task absorption, not systems building"
+    },
+    {
+      "name": "Presence Bias",
+      "description": "Being physically on the floor is rated higher than building systems at a laptop.",
+      "example": "He's always on the floor",
+      "correct_interpretation": "Presence alone does not raise score without evidence of systems work"
+    },
+    {
+      "name": "Halo Effect",
+      "description": "One big positive story colors the entire assessment.",
+      "example": "He saved us during the audit",
+      "correct_interpretation": "Isolate the single event; assess the full tenure independently"
+    },
+    {
+      "name": "Recency Bias",
+      "description": "Supervisor remembers the last 2 weeks more vividly than the full engagement.",
+      "example": "Just last week he...",
+      "correct_interpretation": "Probe for evidence across the full engagement period"
+    }
+  ]
+}

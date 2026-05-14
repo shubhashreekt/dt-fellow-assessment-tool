@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DT Fellow Assessment Tool</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f4f0;color:#1a1a18;min-height:100vh}
+header{background:#fff;border-bottom:1px solid #e0dfd8;padding:1rem 2rem;display:flex;align-items:center;gap:1rem}
+header h1{font-size:16px;font-weight:600;color:#1a1a18}
+header span{font-size:12px;color:#888;background:#f5f4f0;padding:3px 10px;border-radius:20px;border:1px solid #e0dfd8}
+.container{display:grid;grid-template-columns:260px 1fr;gap:0;max-width:1200px;margin:2rem auto;background:#fff;border:1px solid #e0dfd8;border-radius:12px;overflow:hidden;min-height:600px}
+.sidebar{background:#faf9f6;border-right:1px solid #e0dfd8;padding:1.25rem 1rem;display:flex;flex-direction:column;gap:0.5rem}
+.sidebar-label{font-size:10px;font-weight:600;color:#aaa;letter-spacing:0.08em;text-transform:uppercase;padding:0 0.5rem;margin-bottom:0.25rem}
+.sample-btn{background:none;border:none;cursor:pointer;text-align:left;padding:0.625rem 0.75rem;border-radius:8px;width:100%;transition:background 0.12s}
+.sample-btn:hover{background:#f0efe9}
+.sample-btn.active{background:#fff;border:1px solid #e0dfd8}
+.sample-btn .sname{font-size:13px;font-weight:500;color:#1a1a18;display:block}
+.sample-btn .sorg{font-size:11px;color:#888;display:block;margin-top:1px}
+.sample-btn.active .sname{color:#1a1a18}
+.sidebar-footer{font-size:11px;color:#aaa;padding:0.75rem 0.5rem 0;border-top:1px solid #e0dfd8;line-height:1.5;margin-top:auto}
+.main{display:flex;flex-direction:column}
+.input-panel{padding:1.5rem;border-bottom:1px solid #e0dfd8}
+.field-label{font-size:12px;font-weight:500;color:#555;margin-bottom:0.375rem;display:block}
+textarea{width:100%;height:150px;resize:vertical;font-size:13px;font-family:inherit;padding:0.75rem;border:1px solid #e0dfd8;border-radius:8px;background:#faf9f6;color:#1a1a18;line-height:1.6;outline:none;transition:border 0.12s}
+textarea:focus{border-color:#aaa;background:#fff}
+.meta-row{display:flex;gap:0.75rem;margin-top:0.875rem;align-items:flex-end}
+.meta-field{flex:1;display:flex;flex-direction:column;gap:0.25rem}
+.meta-field label{font-size:11px;color:#888}
+input[type=text]{width:100%;font-size:13px;padding:0.4rem 0.625rem;border:1px solid #e0dfd8;border-radius:8px;background:#faf9f6;color:#1a1a18;outline:none;transition:border 0.12s}
+input[type=text]:focus{border-color:#aaa;background:#fff}
+.btn{padding:0.5rem 1.25rem;border-radius:8px;border:1px solid #1a1a18;background:#1a1a18;color:#fff;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:opacity 0.12s}
+.btn:hover{opacity:0.85}
+.btn:disabled{opacity:0.4;cursor:not-allowed}
+.output-panel{flex:1;padding:1.5rem;overflow-y:auto;min-height:320px}
+.placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;gap:0.5rem;color:#bbb;font-size:13px}
+.placeholder svg{opacity:0.3;width:32px;height:32px}
+
+/* Score card */
+.score-card{display:grid;grid-template-columns:72px 1fr;gap:1rem;background:#faf9f6;border:1px solid #e0dfd8;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem}
+.score-circle{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:600}
+.score-meta{display:flex;flex-direction:column;justify-content:center;gap:3px}
+.score-name{font-size:15px;font-weight:600;color:#1a1a18}
+.score-band{font-size:11px;color:#888}
+.score-just{font-size:12px;color:#555;line-height:1.6;margin-top:4px}
+.conf{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;margin-top:5px;width:fit-content;text-transform:uppercase;letter-spacing:0.05em}
+.conf-high{background:#e6f4ec;color:#2d7a4f}
+.conf-medium{background:#fff8e6;color:#9a6b00}
+.conf-low{background:#fce8e8;color:#c0392b}
+
+/* Survivability */
+.surv{display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.875rem;border-radius:8px;font-size:12px;font-weight:500;margin-bottom:1rem}
+.surv-pass{background:#e6f4ec;color:#2d7a4f;border:1px solid #b6dfc8}
+.surv-fail{background:#fce8e8;color:#c0392b;border:1px solid #f5c0c0}
+
+/* Sections */
+.sec{margin-bottom:1rem}
+.sec-title{font-size:10px;font-weight:600;color:#aaa;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.5rem}
+.ev-item{border:1px solid #e0dfd8;border-radius:8px;padding:0.625rem 0.875rem;margin-bottom:0.5rem;background:#fff}
+.ev-quote{font-size:12px;color:#555;font-style:italic;border-left:2px solid #e0dfd8;padding-left:0.625rem;margin-bottom:0.375rem;line-height:1.5}
+.ev-badges{display:flex;gap:0.375rem;flex-wrap:wrap;margin-bottom:0.25rem}
+.badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px}
+.b-pos{background:#e6f4ec;color:#2d7a4f}
+.b-neg{background:#fce8e8;color:#c0392b}
+.b-dim{background:#f0efe9;color:#555;border:1px solid #e0dfd8}
+.ev-interp{font-size:12px;color:#1a1a18;line-height:1.5}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.5rem}
+.kpi-item{border:1px solid #e0dfd8;border-radius:8px;padding:0.625rem 0.75rem;background:#fff}
+.kpi-name{font-size:12px;font-weight:600;color:#1a1a18}
+.kpi-ev{font-size:11px;color:#888;margin-top:2px;line-height:1.4}
+.kpi-type{font-size:10px;margin-top:5px;font-weight:500}
+.kpi-sys{color:#2d7a4f}
+.kpi-per{color:#9a6b00}
+.gap-item{border-left:2px solid #e05c5c;padding:0.5rem 0.75rem;margin-bottom:0.5rem;border-radius:0 8px 8px 0;background:#fff;border-top:1px solid #e0dfd8;border-right:1px solid #e0dfd8;border-bottom:1px solid #e0dfd8}
+.gap-dim{font-size:11px;font-weight:600;color:#c0392b;margin-bottom:2px;text-transform:capitalize}
+.gap-detail{font-size:12px;color:#555;line-height:1.5}
+.fq-item{background:#faf9f6;border:1px solid #e0dfd8;border-radius:8px;padding:0.75rem;margin-bottom:0.5rem}
+.fq-q{font-size:13px;font-weight:500;color:#1a1a18;margin-bottom:4px;line-height:1.4}
+.fq-look{font-size:11px;color:#888;line-height:1.4}
+.loading{display:flex;flex-direction:column;gap:0.75rem;padding:0.25rem 0}
+.pulse{height:11px;border-radius:4px;background:#f0efe9;animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:0.5}50%{opacity:1}}
+.err{background:#fce8e8;color:#c0392b;border:1px solid #f5c0c0;border-radius:8px;padding:0.75rem 1rem;font-size:13px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>DT Fellow Assessment Tool</h1>
+  <span>PDGMS AI Platform</span>
+</header>
+
+<div class="container">
+  <div class="sidebar">
+    <div class="sidebar-label">Sample transcripts</div>
+    <button class="sample-btn" onclick="loadSample(0)" id="s0">
+      <span class="sname">Karthik</span>
+      <span class="sorg">Veerabhadra Auto Components</span>
+    </button>
+    <button class="sample-btn" onclick="loadSample(1)" id="s1">
+      <span class="sname">Meena</span>
+      <span class="sorg">Lakshmi Textiles</span>
+    </button>
+    <button class="sample-btn" onclick="loadSample(2)" id="s2">
+      <span class="sname">Anil</span>
+      <span class="sorg">Prabhat Foods</span>
+    </button>
+    <div class="sidebar-footer">Transcripts are sent to Claude API for analysis only. Not stored or logged.</div>
+  </div>
+
+  <div class="main">
+    <div class="input-panel">
+      <label class="field-label" for="transcript">Supervisor transcript</label>
+      <textarea id="transcript" placeholder="Paste the supervisor's spoken description of the Fellow's work here..."></textarea>
+      <div class="meta-row">
+        <div class="meta-field">
+          <label for="fellow-name">Fellow name (optional)</label>
+          <input type="text" id="fellow-name" placeholder="e.g. Karthik">
+        </div>
+        <div class="meta-field">
+          <label for="org-name">Organization (optional)</label>
+          <input type="text" id="org-name" placeholder="e.g. Veerabhadra Auto">
+        </div>
+        <button class="btn" onclick="analyze()" id="analyze-btn">Analyze →</button>
+      </div>
+    </div>
+    <div class="output-panel" id="output">
+      <div class="placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <span>Paste a transcript above and click Analyze</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SAMPLES = [
+  {
+    name:"Karthik", org:"Veerabhadra Auto Components",
+    text:`Very sincere boy. Always on the floor — I never have to call him twice. He helps me with production tracking. Every evening he updates it and sends it to me on WhatsApp. He follows up with the vendors when there's a delay. He sits in all the morning meetings and takes notes. Once I had him do a cycle time study for the drum brake line — he did it properly, found we were losing about 10 minutes per batch because of a tool changeover issue. I told him what to do and he delivered. He doesn't really push back. If I tell him to do something, he does it. The floor workers like him — he's polite. But I'm not sure he's driving anything on his own. He's waiting for me to assign things.`
+  },
+  {
+    name:"Meena", org:"Lakshmi Textiles",
+    text:`She spends too much time on her laptop. I keep telling her she needs to be on the floor more. But I'll admit — she built an order tracker that the dispatch team is now using every day. She also did some analysis on rejection rates and found that rejections go up on the second shift when a particular loom operator is absent and a substitute comes in. She flagged this to me. I hadn't noticed it. She also set up some kind of alert for when dispatch timelines are at risk — she explained it to me but honestly I didn't fully follow it. The floor team is mixed on her. The older women think she's showing off. She has a good head on her shoulders but she needs to learn that being present matters here.`
+  },
+  {
+    name:"Anil", org:"Prabhat Foods",
+    text:`My right hand. Honestly don't know how we managed before him. He handles all my morning calls now — I just give him a brief and he takes it from there. He runs our Monday review meetings. When Suresh (our ops manager) went on leave, Anil stepped in and handled the entire weekly planning. He coordinates across packaging, QA, dispatch. He's always there. If I message him at 9pm he replies instantly. The team loves him. If he left tomorrow, I don't know — everything would be chaotic for weeks.`
+  }
+];
+
+function loadSample(i) {
+  const s = SAMPLES[i];
+  document.getElementById('transcript').value = s.text;
+  document.getElementById('fellow-name').value = s.name;
+  document.getElementById('org-name').value = s.org;
+  ['s0','s1','s2'].forEach((id,j) => document.getElementById(id).classList.toggle('active', j===i));
+}
+
+function scoreColor(v) {
+  if (v <= 3) return { bg:'#fce8e8', text:'#c0392b' };
+  if (v <= 6) return { bg:'#fff8e6', text:'#9a6b00' };
+  return { bg:'#e6f4ec', text:'#2d7a4f' };
+}
+
+function renderOutput(data, fellowName, orgName) {
+  const { score, survivabilityTest, evidence, kpiMapping, gaps, followUpQuestions } = data;
+  const col = scoreColor(score.value);
+  const confClass = score.confidence==='high'?'conf-high':score.confidence==='medium'?'conf-medium':'conf-low';
+  const name = fellowName || 'The Fellow';
+  const org = orgName ? ` · ${orgName}` : '';
+
+  let html = `
+  <div class="score-card">
+    <div class="score-circle" style="background:${col.bg};color:${col.text}">${score.value}</div>
+    <div class="score-meta">
+      <div class="score-name">${score.label}</div>
+      <div class="score-band">${score.band} band · ${name}${org}</div>
+      <div class="score-just">${score.justification}</div>
+      <div class="conf ${confClass}">${score.confidence} confidence</div>
+    </div>
+  </div>`;
+
+  if (survivabilityTest) {
+    html += `<div class="surv ${survivabilityTest.passes?'surv-pass':'surv-fail'}">
+      ${survivabilityTest.passes ? '✓' : '✗'} Survivability test: ${survivabilityTest.summary}
+    </div>`;
+  }
+
+  if (evidence?.length) {
+    html += `<div class="sec"><div class="sec-title">Evidence from transcript</div>`;
+    evidence.forEach(e => {
+      html += `<div class="ev-item">
+        <div class="ev-quote">${e.quote}</div>
+        <div class="ev-badges">
+          <span class="badge ${e.signal==='positive'?'b-pos':'b-neg'}">${e.signal}</span>
+          <span class="badge b-dim">${e.dimension.replace(/_/g,' ')}</span>
+        </div>
+        <div class="ev-interp">${e.interpretation}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  if (kpiMapping?.length) {
+    html += `<div class="sec"><div class="sec-title">KPI mapping</div><div class="kpi-grid">`;
+    kpiMapping.forEach(k => {
+      html += `<div class="kpi-item">
+        <div class="kpi-name">${k.kpi}</div>
+        <div class="kpi-ev">${k.evidence}</div>
+        <div class="kpi-type ${k.systemOrPersonal==='system'?'kpi-sys':'kpi-per'}">
+          ${k.systemOrPersonal==='system'?'▲ System-level':'▶ Personally delivered'}
+        </div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  }
+
+  if (gaps?.length) {
+    html += `<div class="sec"><div class="sec-title">Gaps — follow up needed</div>`;
+    gaps.forEach(g => {
+      html += `<div class="gap-item">
+        <div class="gap-dim">⚠ ${g.dimension.replace(/_/g,' ')}</div>
+        <div class="gap-detail">${g.detail}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  if (followUpQuestions?.length) {
+    html += `<div class="sec"><div class="sec-title">Suggested follow-up questions</div>`;
+    followUpQuestions.forEach((q, i) => {
+      html += `<div class="fq-item">
+        <div class="fq-q">${i+1}. ${q.question}</div>
+        <div class="fq-look">Looking for: ${q.lookingFor}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  document.getElementById('output').innerHTML = html;
+}
+
+function showLoading() {
+  document.getElementById('output').innerHTML = `<div class="loading">
+    <div class="pulse" style="width:55%"></div>
+    <div class="pulse" style="width:100%"></div>
+    <div class="pulse" style="width:75%"></div>
+    <div style="height:0.5rem"></div>
+    <div class="pulse" style="width:40%"></div>
+    <div class="pulse" style="width:88%"></div>
+    <div class="pulse" style="width:65%"></div>
+    <div style="height:0.5rem"></div>
+    <div class="pulse" style="width:50%"></div>
+    <div class="pulse" style="width:80%"></div>
+  </div>`;
+}
+
+const SYSTEM_PROMPT = `You are an expert evaluator for the DT Fellow program. You analyze supervisor transcripts to produce structured assessments.
+
+RUBRIC (1-10 scale):
+1 = Not Interested: Disengagement, no effort
+2 = Lacks Discipline: Works only when told, no self-initiative
+3 = Motivated but Directionless: Enthusiasm + confusion
+4 = Careless and Inconsistent: Output varies in quality
+5 = Consistent Performer: Reliable task execution, does what is asked
+6 = Reliable and Productive: High trust, tasks completed without follow-up
+7 = Problem Identifier: Spots patterns supervisor hadn't noticed, expands scope independently
+8 = Problem Solver: Identifies AND fixes problems, builds tracking/systems
+9 = Innovative and Experimental: Builds new tools, tests approaches, MVPs
+10 = Exceptional Performer: Score 9 behavior, flawless, others learn from their work
+
+CRITICAL SCORING RULES:
+- Score 6 vs 7 distinction is most important. Score 6 = executes assigned tasks reliably. Score 7 = independently identifies problems the supervisor did NOT ask about.
+- Helpfulness bias: "handles all my calls" = 5-6 (task absorption), NOT 8
+- Presence bias: "always on the floor" does NOT raise score without systems evidence
+- Halo effect: one positive story should not inflate the overall score
+- Recency bias: supervisor may only remember last 2 weeks
+- Dependency trap: Fellow absorbing supervisor's workload without building self-sustaining systems = 5-6 max, flag the dependency
+
+TWO LAYERS:
+- Layer 1 (Execution): meetings, follow-ups, coordination, data entry, vendor calls — necessary but not the mandate
+- Layer 2 (Systems Building): SOPs, trackers, dashboards, workflows, accountability structures — THE ACTUAL MANDATE
+- Flag explicitly when transcript only shows Layer 1 evidence
+
+SURVIVABILITY TEST: If the Fellow left tomorrow, would any system they built continue running? Yes = systems building. No = task execution only.
+
+8 KPIs (supervisors use plain language, not these terms):
+- Lead Generation: finding new customers/partners
+- Lead Conversion: closing deals, converting prospects
+- Upselling: existing customers buying more
+- Cross-selling: existing customers buying new product types
+- NPS: customer satisfaction, fewer complaints, happier clients
+- PAT: profitability, cost reduction, waste reduction
+- TAT: turnaround time, dispatch speed, deadline adherence
+- Quality: defect rates, rejection rates, complaint rates
+
+4 ASSESSMENT DIMENSIONS:
+1. Driving Execution: gets things done on time, follows up without reminders
+2. Systems Building: created trackers/SOPs/processes that survive Fellow's departure
+3. KPI Impact: connects to measurable business outcome
+4. Change Management: gets floor team to adopt new processes, handles resistance — flag absence explicitly
+
+Return ONLY valid JSON. No markdown, no prose, no backticks. Use this exact structure:
+{
+  "score": {
+    "value": <integer 1-10>,
+    "label": <string from rubric>,
+    "band": <"Need Attention"|"Productivity"|"Performance">,
+    "justification": <2-3 sentence explanation grounded in transcript evidence>,
+    "confidence": <"high"|"medium"|"low">
+  },
+  "survivabilityTest": {
+    "passes": <true|false>,
+    "summary": <one sentence>
+  },
+  "evidence": [
+    {
+      "quote": <exact or near quote from transcript>,
+      "signal": <"positive"|"negative">,
+      "dimension": <"execution"|"systems_building"|"kpi_impact"|"change_management">,
+      "interpretation": <one sentence explaining what this means for scoring>
+    }
+  ],
+  "kpiMapping": [
+    {
+      "kpi": <KPI name>,
+      "evidence": <what in the transcript maps to this>,
+      "systemOrPersonal": <"system"|"personal">
+    }
+  ],
+  "gaps": [
+    {
+      "dimension": <dimension name>,
+      "detail": <specific gap and why it matters>
+    }
+  ],
+  "followUpQuestions": [
+    {
+      "question": <specific question for the supervisor>,
+      "targetGap": <which gap this addresses>,
+      "lookingFor": <what a good answer would reveal>
+    }
+  ]
+}`;
+
+async function analyze() {
+  const transcript = document.getElementById('transcript').value.trim();
+  if (!transcript) { alert('Please paste a supervisor transcript first.'); return; }
+  const fellowName = document.getElementById('fellow-name').value.trim();
+  const orgName = document.getElementById('org-name').value.trim();
+  const btn = document.getElementById('analyze-btn');
+  btn.disabled = true; btn.textContent = 'Analyzing...';
+  showLoading();
+
+  const userMessage = `Fellow name: ${fellowName || 'Unknown'}
+Organization: ${orgName || 'Unknown'}
+
+Supervisor transcript:
+"${transcript}"
+
+Analyze this transcript and return the JSON assessment.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: [{ role: 'user', content: userMessage }]
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || 'API error');
+    const raw = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
+    const cleaned = raw.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(cleaned);
+    renderOutput(parsed, fellowName, orgName);
+  } catch (e) {
+    document.getElementById('output').innerHTML = `<div class="err">Error: ${e.message}</div>`;
+    console.error(e);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Analyze →';
+  }
+}
+</script>
+</body>
+</html>
